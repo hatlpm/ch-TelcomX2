@@ -1,59 +1,76 @@
-# 📊 Predicción de Churn en Clientes de Telecomunicaciones - Telecom X
+# 📊 Predicción de Churn en Telecom X
 
-Este proyecto utiliza técnicas de ciencia de datos para analizar y predecir la cancelación de clientes (churn) en una empresa de telecomunicaciones ficticia llamada **Telecom X**. El objetivo es identificar los factores que influyen en la pérdida de clientes y construir modelos predictivos que permitan a la empresa tomar acciones proactivas para retenerlos.
+## 📌 Descripción del Proyecto
 
-## 📚 Tabla de Contenidos
+Este proyecto aborda el problema de la cancelación de clientes (churn) en Telecom X, una empresa de telecomunicaciones. El objetivo es identificar los factores que impulsan el churn y construir modelos predictivos robustos para anticipar qué clientes tienen mayor probabilidad de abandonar la empresa, permitiendo así intervenciones de retención más efectivas.
 
-- [📝 Descripción del Problema](#descripción-del-problema)
-- [🔎 Metodología](#metodología)
-- [📈 Análisis Exploratorio](#análisis-exploratorio)
-- [🧹 Preprocesamiento](#preprocesamiento)
-- [🤖 Modelado](#modelado)
-- [🏆 Resultados](#resultados)
-- [⚙️ Requisitos](#requisitos)
-- [📄 Informe Completo](#informe-completo)
+---
 
-## 📝 Descripción del Problema
+## 🗂️ Estructura de los Datos
 
-Telecom X enfrenta una alta tasa de cancelación de clientes, lo que afecta su rentabilidad y crecimiento. El objetivo principal es predecir qué clientes tienen mayor probabilidad de abandonar la empresa, permitiendo así intervenciones de retención más efectivas.
+- **Registros:** 7,267 clientes
+- **Variables:** 21 columnas con información demográfica, servicios contratados, historial de pagos y estado de churn
 
-## 🔎 Metodología
+---
 
-Se sigue la metodología **CRISP-DM**:
-1. Carga y limpieza de datos desde una API pública.
-2. Análisis exploratorio y segmentación de clientes.
-3. Preprocesamiento y transformación de variables.
-4. Modelado predictivo (Random Forest y Redes Neuronales).
-5. Evaluación y explicación de resultados.
+## 🔍 Principales Hallazgos
 
-## 📈 Análisis Exploratorio
+- El 55% de los clientes tiene contrato "Month-to-month", segmento con mayor fuga.
+- Clientes con menos de 12 meses de antigüedad tienen hasta 3 veces más probabilidad de churn.
+- No contar con servicios adicionales (OnlineSecurity, TechSupport, DeviceProtection) incrementa el riesgo.
+- El método de pago "Electronic check" tiene la tasa de churn más alta (~34%).
+- El tipo de internet "Fiber optic" presenta mayor churn que "DSL".
+- Cargos mensuales altos y cargos totales bajos son típicos de clientes nuevos y de alto riesgo.
 
-- El dataset contiene 7,032 clientes y 21 variables, incluyendo datos demográficos, servicios contratados, historial de pagos y estado de churn.
-- Se identifican variables clave como tipo de contrato, antigüedad, cargos mensuales/totales, servicios adicionales y método de pago.
-- Se observa que los contratos mes a mes, menor antigüedad y ciertos métodos de pago están asociados a mayor churn.
+---
 
-## 🧹 Preprocesamiento
+## 🤖 Modelos Utilizados
 
-- Limpieza de datos nulos y transformación de variables categóricas y numéricas.
-- Eliminación de variables con alta multicolinealidad.
-- Balanceo de clases y preparación de datos para modelado.
+| Modelo                | AUC   | Recall | Precision | F1   | Observaciones |
+|-----------------------|-------|--------|-----------|------|--------------|
+| **Random Forest**     | 0.84  | 0.76   | 0.56      | 0.64 | Buen balance entre interpretabilidad y desempeño. |
+| **XGBoost**           | 0.85  | 0.82   | 0.54      | 0.64 | Mejor desempeño general, especialmente en recall y AUC. |
+| **Red Neuronal (MLP)**| 0.84  | 0.83   | 0.49      | 0.60 | Útil, pero menor desempeño que los modelos de árboles. |
 
-## 🤖 Modelado
+- Todos los modelos fueron validados con cross-validation y ajuste de pesos para el desbalance de clases.
+- **XGBoost** es el modelo recomendado para producción por su desempeño superior.
+- No se incluyó un modelo de clustering en el análisis final.
 
-- **Random Forest**: Optimización de hiperparámetros y ajuste de pesos para clases desbalanceadas.
-- **Red Neuronal**: Arquitectura simple con ajuste de pesos de clase.
-- Evaluación con métricas como AUC-ROC, F1-score, precisión y recall.
+---
 
-## 🏆 Resultados
+## 💡 Recomendaciones de Negocio
 
-- El modelo Random Forest alcanzó un **AUC-ROC de 0.84** y un recall del 79% para la clase churn.
-- Las variables más importantes son: tipo de contrato, antigüedad, cargos totales, tipo de internet y método de pago.
-- Se identificaron segmentos de clientes con mayor riesgo de churn, permitiendo estrategias de retención personalizadas.
+1. Migrar contratos "Month-to-month" a planes anuales mediante incentivos y descuentos.
+2. Promover servicios adicionales (seguridad, soporte, protección de dispositivos) con bundles y ofertas para clientes nuevos.
+3. Campañas dirigidas a clientes con "Electronic check" para migrar a métodos automáticos (tarjeta/crédito) con beneficios iniciales.
+4. Programa de fidelización por antigüedad: recompensas a los 6 y 12 meses para reducir churn temprano.
+5. Alertas proactivas: disparar intervenciones cuando un cliente cumpla condiciones críticas (tenure bajo, contrato M2M, Electronic check).
 
-## ⚙️ Requisitos
+---
 
-- Python 3.11
-- pandas, numpy, scikit-learn, matplotlib, seaborn, xgboost, lightgbm, tensorflow
+## 🧩 Segmentos de Clientes en Riesgo
+
+- **Clientes con contrato "Month-to-month", menos de 12 meses y pago "Electronic check":** Mayor tasa de cancelación.  
+  _Acción:_ Incentivar migración a contratos anuales y pagos automáticos.
+
+- **Usuarios de "Fiber optic" sin servicios adicionales:** Churn superior al promedio.  
+  _Acción:_ Promocionar bundles de seguridad y soporte.
+
+- **Clientes con cargos mensuales altos y cargos totales bajos:** Nuevos con paquetes premium, riesgo de baja integración.  
+  _Acción:_ Onboarding personalizado y seguimiento inicial.
+
+- **Clientes sin dependientes ni pareja, especialmente "Senior Citizens":** Mayor propensión al churn.  
+  _Acción:_ Beneficios exclusivos y comunicación personalizada.
+
+- **Clientes sin servicio de internet:** Oportunidad para upselling de servicios digitales.
+
+---
+
+## 📈 Conclusión
+
+El churn en Telecom X es predecible con alta precisión (AUC hasta 0.85 con XGBoost). Las variables controlables ofrecen palancas directas para reducir la fuga. Implementar las recomendaciones puede recortar el churn anual en 8-12 puntos porcentuales, generando un impacto financiero significativo.
+
+---
 
 ## 📄 Informe Completo
 
