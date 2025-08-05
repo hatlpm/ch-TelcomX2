@@ -52,11 +52,11 @@ Se sigue la metodología **CRISP-DM**:
 
 ## ⚙️ Requisitos
 
-- Python 3.x
+- Python 3.11
 - pandas, numpy, scikit-learn, matplotlib, seaborn, xgboost, lightgbm, tensorflow
 
 ## 📄 Informe Completo
 
 Puedes consultar el informe detallado del análisis y resultados en el siguiente enlace:
 
-[📑 Informe PDF del Proyecto](./informeTELCOMX2Alura.md)
+[📑 Informe del Proyecto](./informeTELCOMX2Alura.md)
